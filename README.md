@@ -1,4 +1,4 @@
-# botAssistant_Python
+# Python Bot Assistant
 Bot Assistant for Python to avoid getting Blocked for Web Scraping
 
 Basic Features:
@@ -15,3 +15,10 @@ Basic Features:
 
 
 Best suitable for Web Scraping or Automation projects
+
+USAGE:
+from botAssistantModule import botAssistant
+
+bot = botAssistant() # Create an Instance
+
+

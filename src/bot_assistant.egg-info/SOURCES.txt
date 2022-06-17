@@ -1,0 +1,12 @@
+LICENSE.rst
+README.md
+setup.cfg
+setup.py
+steps.txt
+src/bot/__init__.py
+src/bot/assistant.py
+src/bot_assistant.egg-info/PKG-INFO
+src/bot_assistant.egg-info/SOURCES.txt
+src/bot_assistant.egg-info/dependency_links.txt
+src/bot_assistant.egg-info/requires.txt
+src/bot_assistant.egg-info/top_level.txt

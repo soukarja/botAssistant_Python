@@ -16,8 +16,7 @@ Best suitable for Web Scraping or Automation projects
 
 USAGE:
 
-from botAssistantModule import *
-
-bot = botAssistant() # Create an Instance
+from bot.assistant import *
+bot = botAssistant(debugMode=True) # Create an Instance
 
 

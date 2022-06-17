@@ -1,6 +1,3 @@
-import requests
-from lxml.html import fromstring
-from itertools import cycle
 import random
 import time
 from selenium.webdriver.common.keys import Keys

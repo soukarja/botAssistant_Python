@@ -7,6 +7,13 @@ from selenium.webdriver.common.keys import Keys
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
+
+class _Colors:
+    RED_BOLD = "\033[1;31m"
+    RED = "\033[0;31m"
+    WHITE = "\033[0;37m"
+    GREEN = "\033[0;32m"
+
 class KeyboardKeys(Keys):
     def __init__(self) -> None:
         super().__init__()
@@ -36,24 +43,23 @@ class botAssistant:
         self.printLogs = printLogs
         self.browser = None
         self.debugMode = debugMode
+        self.randomisedWaiting = True
         
 
     def _showError(self, errorMessage: str, exception: Exception) -> None:
-        color1 = "\033[1;31m"
-        color2 = "\033[0;31m"
-        self._printLogs(errorMessage, color=color1)
+        self._printLogs(errorMessage, color=_Colors.RED_BOLD)
 
         if self.debugMode:
-            print(color2, end="")
+            print(_Colors.RED, end="")
             print(exception)
             raise exception
 
-        print("\033[0;37m", end="")
+        print(_Colors.WHITE, end="")
 
-    def _printLogs(self, logs: str, color:str = "\033[0;32m") -> None:
+    def _printLogs(self, logs: str, color:_Colors = _Colors.GREEN) -> None:
         if self.printLogs:
             print(color+logs)
-        print("\033[0;37m", end="")
+        print(_Colors.WHITE, end="")
 
     def calculateTimeInSeconds(self, hours: int = 0, minutes: int = 0, seconds: int = 0, days: int = 0, weeks: int = 0, months: int = 0, years: int = 0) -> int:
         return (hours * 60 * 60) + (minutes * 60) + (seconds) + (days*60*60*24) + (weeks*60*60*24*7) + (months*60*60*24*30) + (years*60*60*24*365)
@@ -296,7 +302,8 @@ class botAssistant:
 
             self._printLogs(f"New Tab Opened with link: {link}")
 
-            self.sleepRandom()
+            if self.randomisedWaiting:
+                self.sleepRandom()
             self.browser.window_handles
 
             return True
@@ -313,7 +320,8 @@ class botAssistant:
                 return True
             else:
                 self.switchToTab(tabNo=tabNo)
-                self.sleepRandom(1, 1)
+                if self.randomisedWaiting:
+                    self.sleepRandom(1, 1)
                 return self.closeTab()
         except Exception as e:
             self._showError("Unable to close Tab", e)
@@ -341,7 +349,8 @@ class botAssistant:
         try:
             self.browser.get(link)
             self._printLogs(f"Link opened in Browser: {link}")
-            self.sleepRandom()
+            if self.randomisedWaiting:
+                self.sleepRandom()
 
             return True
         except Exception as e:

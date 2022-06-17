@@ -3,8 +3,6 @@ Bot Assistant for Python to avoid getting Blocked for Web Scraping
 
 Basic Features:
 
--> Generate, Validate & set Proxies
-
 -> Generate & Set User Agents basedd on requirements
 
 -> Make boy humanly with randomized waiting time and human like behaviours
@@ -18,7 +16,7 @@ Best suitable for Web Scraping or Automation projects
 
 USAGE:
 
-from botAssistantModule import botAssistant
+from botAssistantModule import *
 
 bot = botAssistant() # Create an Instance
 

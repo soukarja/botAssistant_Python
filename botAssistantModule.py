@@ -6,6 +6,8 @@ import time
 from selenium.webdriver.common.keys import Keys
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.remote import webelement
+from selenium.webdriver.common.by import By
 
 
 class _Colors:
@@ -14,9 +16,6 @@ class _Colors:
     WHITE = "\033[0;37m"
     GREEN = "\033[0;32m"
 
-class KeyboardKeys(Keys):
-    def __init__(self) -> None:
-        super().__init__()
 
 
 class Devices:
@@ -30,13 +29,25 @@ class Devices:
     BOTS = "bots"
     EREADER = "ereader"
 
+
 class Browsers:
     CHROME = "Chrome"
     FIREFOX = "Firefox"
 
-class botAssistant:
 
-    def __init__(self, printLogs: bool = True, debugMode: bool = True) -> None:
+class botAssistant:
+    """
+    Bot Assistant Module to seamlessly create bots and webscrappers with advanced controls
+    """
+
+    def __init__(self, printLogs: bool = True, debugMode: bool = False) -> None:
+        """
+        Creates a new instance of the bot assistant.
+
+        :Args:
+         - printLogs - If Logs and Warnings are to be printed ot not. If the default is used it prints all logs
+         - debugMode - If the bot should raise Errors. Errors are raised if debugMode is true, otherwise Errors are handled automatically
+        """
         self.__useragentList = []
         self.sleepRandom_minTime = 4
         self.sleepRandom_maxTime = 15
@@ -44,7 +55,6 @@ class botAssistant:
         self.browser = None
         self.debugMode = debugMode
         self.randomisedWaiting = True
-        
 
     def _showError(self, errorMessage: str, exception: Exception) -> None:
         self._printLogs(errorMessage, color=_Colors.RED_BOLD)
@@ -56,7 +66,7 @@ class botAssistant:
 
         print(_Colors.WHITE, end="")
 
-    def _printLogs(self, logs: str, color:_Colors = _Colors.GREEN) -> None:
+    def _printLogs(self, logs: str, color: _Colors = _Colors.GREEN) -> None:
         if self.printLogs:
             print(color+logs)
         print(_Colors.WHITE, end="")
@@ -84,6 +94,7 @@ class botAssistant:
             self._printLogs("Waiting for " + str(val) + " seconds")
 
             time.sleep(val)
+            # self.browser.implicitly_wait(val)
 
         except Exception as e:
             self._showError("Unable to sleep", e)
@@ -265,12 +276,10 @@ class botAssistant:
 
         return uaTxt
 
-    def openBrowser(self, headless: bool = False, browser:Browsers = Browsers.CHROME, driverExecutablePath: str = None) -> None:
+    def openBrowser(self, headless: bool = False, browser: Browsers = Browsers.CHROME, driverExecutablePath: str = None) -> None:
         self.browserOptions = Options()
         if headless:
             self.browserOptions.add_argument("--headless")
-
-        browser = browser.strip().lower()
 
         try:
             if browser == Browsers.CHROME:
@@ -280,7 +289,7 @@ class botAssistant:
                 else:
                     self.browser = webdriver.Chrome(
                         options=self.browserOptions, executable_path=driverExecutablePath)
-               
+
             elif browser == Browsers.FIREFOX:
                 if driverExecutablePath == None:
                     self.browser = webdriver.Firefox(
@@ -289,8 +298,8 @@ class botAssistant:
                     self.browser = webdriver.Firefox(
                         options=self.browserOptions, executable_path=driverExecutablePath)
             else:
-                self._showError("Invalid Browser. Browser counld not be identified", TypeError("Browser provided is not of class Browsers"))
-
+                self._showError("Invalid Browser. Browser counld not be identified", TypeError(
+                    "Browser provided is not of class Browsers"))
 
             self._printLogs(f"{browser} Browser Opened")
         except Exception as e:
@@ -337,7 +346,8 @@ class botAssistant:
                     "Invalid tabNo passed as argument. Tab doesn't exist"))
                 return False
 
-            self.browser.switch_to.window(window_name=self.browser.window_handles[tabNo-1])
+            self.browser.switch_to.window(
+                window_name=self.browser.window_handles[tabNo-1])
 
             self._printLogs(f"Switched to tab {tabNo}")
 
@@ -363,3 +373,15 @@ class botAssistant:
             self._printLogs("Browser Closed")
         except Exception as e:
             self._showError("Unable to close browser", e)
+
+    def typeKeys(self, text: str, element: webelement) -> None:
+        temp_logs = self.printLogs
+        temp_debug = self.debugMode
+        self.printLogs = False
+        self.debugMode = False
+        for c in text:
+            element.send_keys(c)
+            self.sleepRandom(0,1)
+        
+        self.printLogs = temp_logs
+        self.debugMode = temp_debug

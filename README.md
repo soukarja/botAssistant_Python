@@ -3,11 +3,11 @@ Bot Assistant for Python to avoid getting Blocked for Web Scraping
 
 Basic Features:
 
--> Generate & Set User Agents basedd on requirements
+-> Generate & Set User Agents based on requirements
 
--> Make boy humanly with randomized waiting time and human like behaviours
+-> Make bot humanly with randomized waiting time and human like behaviours
 
--> Control Browser using selenium (Open Browser, Close Browser, Open New Tab, Close Tab, Go to Link)
+-> Control Browser using selenium (Open Browser, Close Browser, Open New Tab, Close Tab, Go to Link etc.)
 
 -> Calculate Time in seconds or MilliSeconds
 
